@@ -1,18 +1,11 @@
-package com.juan.orangeTalents.controleUsuarios.model;
+package com.juan.orangeTalents.controleusuarios.model;
 
+import com.juan.orangeTalents.controleusuarios.dto.UsuarioDto;
+
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.juan.orangeTalents.controleUsuarios.dto.UsuarioDto;
 
 
 @Entity
@@ -31,10 +24,8 @@ public class Usuario {
 
 	private String dataNascimento;
 
-//	@ManyToOne
-//	@JoinColumn(name = "endereco_id")
 	@OneToMany(mappedBy = "usuario")
-	private List<Endereco> endereco;
+	private List<Endereco> endereco = new ArrayList<>();
 	
 	public Usuario(int id, String cpf, String name, String email, String dataNascimento, List<Endereco> endereco) {
 		super();
@@ -48,14 +39,12 @@ public class Usuario {
 	
 	public UsuarioDto toDto() {
 		UsuarioDto usuarioDto =  new UsuarioDto();
-		
 		usuarioDto.setCpf(this.cpf);
 		usuarioDto.setDataNascimento(this.dataNascimento);
 		usuarioDto.setEmail(this.email);
 		usuarioDto.setId(this.id);
 		usuarioDto.setNome(this.nome);
 		usuarioDto.setEndereco(this.endereco.stream().map(Endereco::toDto).collect(Collectors.toList()));
-		
 		return usuarioDto;
 	}
 

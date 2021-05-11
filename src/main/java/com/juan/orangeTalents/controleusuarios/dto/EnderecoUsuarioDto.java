@@ -1,12 +1,9 @@
-package com.juan.orangeTalents.controleUsuarios.dto;
-
+package com.juan.orangeTalents.controleusuarios.dto;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
-import com.juan.orangeTalents.controleUsuarios.model.Endereco;
-import com.sun.istack.NotNull;
-
-public class EnderecoDto {
+public class EnderecoUsuarioDto implements Serializable {
 
 	private int id;
 
@@ -30,26 +27,6 @@ public class EnderecoDto {
 
 	@NotBlank
 	private String uf;
-
-	@NotNull
-	private UsuarioEnderecoDto usuario;
-
-	public Endereco toEntity() {
-
-		Endereco endereco = new Endereco();
-
-		endereco.setCep(this.cep);
-		endereco.setBairro(this.bairro);
-		endereco.setComplemento(this.complemento);
-		endereco.setId(this.id);
-		endereco.setLocalidade(this.localidade);
-		endereco.setLogradouro(this.logradouro);
-		endereco.setUf(this.uf);
-		endereco.setNumero(this.numero);
-		endereco.setUsuario(this.usuario.toEntity());
-
-		return endereco;
-	}
 
 	public int getId() {
 		return id;
@@ -113,13 +90,5 @@ public class EnderecoDto {
 
 	public void setUf(String uf) {
 		this.uf = uf;
-	}
-
-	public UsuarioEnderecoDto getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(UsuarioEnderecoDto usuario) {
-		this.usuario = usuario;
 	}
 }

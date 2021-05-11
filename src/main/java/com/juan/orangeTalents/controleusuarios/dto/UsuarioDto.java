@@ -1,16 +1,15 @@
-package com.juan.orangeTalents.controleUsuarios.dto;
+package com.juan.orangeTalents.controleusuarios.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.juan.orangeTalents.controleusuarios.model.Usuario;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.util.List;
 
-import com.juan.orangeTalents.controleUsuarios.model.Usuario;
-
-public class UsuarioDto {
+public class UsuarioDto implements Serializable {
 
 	private int id;
-	
+
 	@NotBlank
 	private String cpf;
 
@@ -23,22 +22,15 @@ public class UsuarioDto {
 	@NotBlank
 	private String dataNascimento;
 
-	private List<EnderecoDto> endereco;
+	private List<EnderecoUsuarioDto> endereco;
 
 	public Usuario toEntity() {
 		Usuario usuario = new Usuario();
-		
 		usuario.setCpf(this.cpf);
 		usuario.setDataNascimento(this.dataNascimento);
 		usuario.setEmail(this.email);
 		usuario.setId(this.id);
 		usuario.setNome(this.nome);
-		if(this.endereco != null) 
-		{
-			usuario.setEndereco(this.endereco.stream().map(EnderecoDto::toEntity).collect(Collectors.toList()));
-		}
-		
-
 		return usuario;
 	}
 
@@ -82,11 +74,11 @@ public class UsuarioDto {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public List<EnderecoDto> getEndereco() {
+	public List<EnderecoUsuarioDto> getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(List<EnderecoDto> endereco) {
+	public void setEndereco(List<EnderecoUsuarioDto> endereco) {
 		this.endereco = endereco;
 	}
 }

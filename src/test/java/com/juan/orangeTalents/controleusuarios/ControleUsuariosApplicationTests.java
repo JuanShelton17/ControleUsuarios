@@ -1,4 +1,4 @@
-package com.juan.orangeTalents.controleUsuarios;
+package com.juan.orangeTalents.controleusuarios;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

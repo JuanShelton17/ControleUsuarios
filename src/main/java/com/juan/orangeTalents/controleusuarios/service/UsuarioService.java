@@ -1,10 +1,10 @@
-package com.juan.orangeTalents.controleUsuarios.service;
+package com.juan.orangeTalents.controleusuarios.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.juan.orangeTalents.controleUsuarios.dto.UsuarioDto;
-import com.juan.orangeTalents.controleUsuarios.model.Usuario;
+import com.juan.orangeTalents.controleusuarios.dto.UsuarioDto;
+import com.juan.orangeTalents.controleusuarios.model.Usuario;
 
 public interface UsuarioService {
 
