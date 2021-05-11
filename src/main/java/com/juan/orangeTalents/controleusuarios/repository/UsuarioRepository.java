@@ -1,11 +1,11 @@
-package com.juan.orangeTalents.controleUsuarios.repository;
+package com.juan.orangeTalents.controleusuarios.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.juan.orangeTalents.controleUsuarios.model.Usuario;
+import com.juan.orangeTalents.controleusuarios.model.Usuario;
 
-@Repository("usuarioRepository")
+@Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 }

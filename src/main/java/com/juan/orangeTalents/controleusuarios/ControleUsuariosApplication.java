@@ -1,4 +1,4 @@
-package com.juan.orangeTalents.controleUsuarios;
+package com.juan.orangeTalents.controleusuarios;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
