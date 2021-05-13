@@ -1,9 +1,14 @@
 package com.juan.orangeTalents.controleusuarios.service.impl;
 
 import com.juan.orangeTalents.controleusuarios.dto.UsuarioDto;
+import com.juan.orangeTalents.controleusuarios.exception.CpfExistenteException;
+import com.juan.orangeTalents.controleusuarios.exception.EmailExixtenteException;
+import com.juan.orangeTalents.controleusuarios.exception.ErroAcessoBDException;
+import com.juan.orangeTalents.controleusuarios.exception.UsuarioNaoEncontradoException;
 import com.juan.orangeTalents.controleusuarios.model.Usuario;
 import com.juan.orangeTalents.controleusuarios.repository.UsuarioRepository;
 import com.juan.orangeTalents.controleusuarios.service.UsuarioService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +24,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Optional<Usuario> getUsuarioById(Integer id) {
-		return usuarioRepository.findById(id);
+	public Optional<Usuario> getUsuarioById(Integer id) throws UsuarioNaoEncontradoException{
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+		if (!usuario.isPresent()) {
+			throw new UsuarioNaoEncontradoException("Usuário não encontrado");
+		}
+		return usuario;
 	}
 
 	@Override
@@ -29,8 +38,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Usuario insertUsuario(UsuarioDto usuario) {
-		Usuario u = usuario.toEntity();
-		return usuarioRepository.save(u);
+	public Usuario insertUsuario(UsuarioDto usuarioDto) {
+		try {
+			Usuario usuario = usuarioRepository.save(usuarioDto.toEntity());
+			return usuario;
+		} catch (DataIntegrityViolationException exe) {
+			if (exe.getMessage().toString().contains("USUARIO(CPF)")) {
+				throw new CpfExistenteException("CPF existente");
+			} else {
+				throw new EmailExixtenteException("E-mail existente");
+			}
+		} catch (Exception e) {
+			throw new ErroAcessoBDException(e.getMessage());
+		}
 	}
 }
