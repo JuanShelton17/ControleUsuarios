@@ -16,10 +16,12 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(unique=true)
 	private String cpf;
 	
 	private String nome;
 
+	@Column(unique=true)
 	private String email;
 
 	private String dataNascimento;

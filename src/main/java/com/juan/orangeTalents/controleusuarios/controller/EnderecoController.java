@@ -1,5 +1,6 @@
 package com.juan.orangeTalents.controleusuarios.controller;
 
+import com.juan.orangeTalents.controleusuarios.dto.EnderecoByCEPDto;
 import com.juan.orangeTalents.controleusuarios.dto.EnderecoDto;
 import com.juan.orangeTalents.controleusuarios.dto.EnderecoUsuarioDto;
 import com.juan.orangeTalents.controleusuarios.model.Endereco;
@@ -43,5 +44,11 @@ public class EnderecoController {
 		Endereco endereco = enderecoService.insertEndereco(e);
 		return  ResponseEntity.created(URI.create(String.format("/enderecos/%s", endereco.getId()))).body(endereco.toDto());
 	}
-	
+
+	@RequestMapping(value = "/cep", method = RequestMethod.POST)
+	public ResponseEntity<EnderecoUsuarioDto> insertByCEP(@RequestBody @Valid EnderecoByCEPDto e) {
+		Endereco endereco = enderecoService.insertEnderecoByCep(e);
+		return  ResponseEntity.created(URI.create(String.format("/enderecos/%s", endereco.getId()))).body(endereco.toDto());
+	}
+
 }

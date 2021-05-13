@@ -1,12 +1,12 @@
 package com.juan.orangeTalents.controleusuarios.service;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.juan.orangeTalents.controleusuarios.dto.EnderecoByCEPDto;
 import com.juan.orangeTalents.controleusuarios.dto.EnderecoDto;
 import com.juan.orangeTalents.controleusuarios.model.Endereco;
 
-//@FeignClient(url = "viacep.com.br/ws/", name = "viacepService")
+import java.util.List;
+import java.util.Optional;
+
 public interface EnderecoService {
 
 	Optional<Endereco> getEnderecoById(Integer id);
@@ -15,11 +15,6 @@ public interface EnderecoService {
 
 	Endereco insertEndereco(EnderecoDto e);
 
-//	List<Endereco> getUsuariosDeEnderecos();
+	Endereco insertEnderecoByCep(EnderecoByCEPDto e);
 
-//	@GetMapping("{cep}/json")
-//    Endereco buscaEnderecoPorCep(@PathVariable("cep") String cep);
-//
-//	@RequestMapping(value = "/rest/insertEndereco", method = RequestMethod.POST)
-//	void insertEndereco(Endereco endereco);
 }
