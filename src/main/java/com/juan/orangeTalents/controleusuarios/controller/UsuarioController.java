@@ -45,7 +45,7 @@ public class UsuarioController {
             Usuario usuario = usuarioService.insertUsuario(usuarioDto);
             return ResponseEntity.created(URI.create(String.format("/usuarios/%s", usuario.getId()))).body(usuario.toDto());
         } catch (Exception ex) {
-            return ResponseEntity.status(412).body(ex.getMessage());
+            return ResponseEntity.status(400).body(ex.getMessage());
         }
     }
 }

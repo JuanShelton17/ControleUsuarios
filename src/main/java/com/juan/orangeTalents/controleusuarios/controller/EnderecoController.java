@@ -1,18 +1,25 @@
 package com.juan.orangeTalents.controleusuarios.controller;
 
-import com.juan.orangeTalents.controleusuarios.dto.EnderecoByCEPDto;
-import com.juan.orangeTalents.controleusuarios.dto.EnderecoDto;
-import com.juan.orangeTalents.controleusuarios.dto.EnderecoUsuarioDto;
-import com.juan.orangeTalents.controleusuarios.model.Endereco;
-import com.juan.orangeTalents.controleusuarios.service.EnderecoService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.juan.orangeTalents.controleusuarios.dto.EnderecoByCEPDto;
+import com.juan.orangeTalents.controleusuarios.dto.EnderecoDto;
+import com.juan.orangeTalents.controleusuarios.dto.EnderecoUsuarioDto;
+import com.juan.orangeTalents.controleusuarios.exception.EnderecoNaoEncontradoException;
+import com.juan.orangeTalents.controleusuarios.model.Endereco;
+import com.juan.orangeTalents.controleusuarios.service.EnderecoService;
 
 @RestController
 @RequestMapping("/enderecos")
@@ -31,24 +38,40 @@ public class EnderecoController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<EnderecoUsuarioDto> getById(@PathVariable("id") Integer id) {
-		Optional<Endereco> endereco = enderecoService.getEnderecoById(id);
-		if (!endereco.isPresent()) {
-			return ResponseEntity.notFound().build();
+	public ResponseEntity getById(@PathVariable("id") Integer id) {
+		try 
+		{
+			Optional<Endereco> endereco = enderecoService.getEnderecoById(id);
+			return ResponseEntity.ok(endereco.get().toDto());
+		} catch (EnderecoNaoEncontradoException ex) 
+		{
+			return ResponseEntity.status(404).body(ex.getMessage());
 		}
-		return ResponseEntity.ok(endereco.get().toDto());
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<EnderecoUsuarioDto> insert(@RequestBody @Valid EnderecoDto e) {
-		Endereco endereco = enderecoService.insertEndereco(e);
-		return  ResponseEntity.created(URI.create(String.format("/enderecos/%s", endereco.getId()))).body(endereco.toDto());
+	public ResponseEntity<?> insert(@RequestBody @Valid EnderecoDto e) {
+		try 
+		{
+			Endereco endereco = enderecoService.insertEndereco(e);
+			return ResponseEntity.created(URI.create(String.format("/enderecos/%s", endereco.getId())))
+					.body(endereco.toDto());
+		} catch (Exception ex) 
+		{
+			return ResponseEntity.status(400).body(ex.getMessage());
+		}
 	}
 
 	@RequestMapping(value = "/cep", method = RequestMethod.POST)
-	public ResponseEntity<EnderecoUsuarioDto> insertByCEP(@RequestBody @Valid EnderecoByCEPDto e) {
-		Endereco endereco = enderecoService.insertEnderecoByCep(e);
-		return  ResponseEntity.created(URI.create(String.format("/enderecos/%s", endereco.getId()))).body(endereco.toDto());
+	public ResponseEntity<?> insertByCEP(@RequestBody @Valid EnderecoByCEPDto e) {
+		try {
+			Endereco endereco = enderecoService.insertEnderecoByCep(e);
+			return ResponseEntity.created(URI.create(String.format("/enderecos/%s", endereco.getId())))
+					.body(endereco.toDto());
+			
+		} catch (Exception ex) {
+			return ResponseEntity.status(400).body(ex.getMessage());
+		}
 	}
 
 }
